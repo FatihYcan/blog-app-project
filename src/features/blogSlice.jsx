@@ -6,7 +6,7 @@ const blogSlice = createSlice({
   initialState: {
     categories: [],
     blogs: [],
-    // comments: [],
+    comments: [],
     likes: [],
     user: [], //MyUser
     details: {},
@@ -32,8 +32,8 @@ const blogSlice = createSlice({
       state.error = false;
     },
 
-    getCategorySuccess: (state, { payload: { data, url } }) => {
-      state[url] = data;
+    getCategorySuccess: (state, action) => {
+      state[action.payload.url] = action.payload.apiData;
       state.loading = false;
       state.error = false;
     },

@@ -26,15 +26,16 @@ const useBlogCalls = () => {
     }
   };
 
-  const postBlogs = async (url = "blogs", data) => {
+  const postBlogs = async (url = "blogs", postData) => {
     dispatch(fetchStart());
     try {
-      const { data } = await axiosWithToken.post(`/${url}/`, data);
+      const { data } = await axiosWithToken.post(`/${url}/`, postData);
       const apiData = data.data;
       getBlogs(url);
       dispatch(getBlogSuccess({ apiData, url }));
       toastSuccessNotify(`${url} kayıdı eklenmiştir.`);
     } catch (error) {
+      console.error("postBlogs error:", error);
       dispatch(fetchFail());
       toastErrorNotify(`${url} kaydi eklenemiştir.`);
     }
@@ -64,17 +65,11 @@ const useBlogCalls = () => {
     }
   };
 
-  // const getCategories = async (url) => {
-  //   dispatch(fetchStart());
-  //   try {
-  //     const { data } = await axiosWithToken(`/${url}/`);
-  //     const apiData = data.data;
-  //     dispatch(getBlogSuccess({ apiData, url }));
-  //   } catch (error) {
-  //     dispatch(fetchFail());
-  //     toastErrorNotify(`${url} bilgileri çekilemedi.`);
-  //   }
-  // };
+  const getCategories = async (url = "blogs") => {
+    const { data } = await axiosWithToken(`/${url}/`);
+    const apiData = data.data;
+    dispatch(getCategorySuccess({ apiData, url }));
+  };
 
   const postLikes = async (url = "blogs", post_id, detail = false) => {
     dispatch(fetchStart());
@@ -111,10 +106,11 @@ const useBlogCalls = () => {
     dispatch(fetchStart());
     try {
       await axiosWithToken.post(`/${url}/`, data);
-      toastSuccessNotify(`${url} kayıdı eklenmiştir.`);
+      toastSuccessNotify("Yorum yapılmıştır.");
+      getBlogs(url);
     } catch (error) {
       dispatch(fetchFail());
-      toastErrorNotify(`${url} kaydı eklenememiştir.`);
+      toastErrorNotify("Yorum yapılamamıştır");
     }
   };
 
@@ -123,7 +119,7 @@ const useBlogCalls = () => {
     postBlogs,
     putBlogs,
     deleteBlogs,
-    // getCategories,
+    getCategories,
     postLikes,
     getDetails,
     getUsers,

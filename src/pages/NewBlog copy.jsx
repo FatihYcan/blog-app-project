@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import useBlogCalls from "../hooks/useBlogCalls";
 import { useSelector } from "react-redux";
 
@@ -18,11 +18,11 @@ const NewBlog = () => {
   const { getBlogs, postBlogs, getCategories } = useBlogCalls();
 
   const [data, setData] = React.useState({
-    categoryId: "",
     title: "",
-    content: "",
     image: "",
-    isPublish: true,
+    categoryId: "",
+    isPublished: true,
+    content: "",
   });
 
   useEffect(() => {
@@ -38,15 +38,13 @@ const NewBlog = () => {
     e.preventDefault();
     postBlogs("blogs", data);
     setData({
-      categoryId: "",
       title: "",
-      content: "",
       image: "",
-      isPublish: true,
+      categoryId: "",
+      isPublished: "",
+      content: "",
     });
   };
-
-  console.log(data);
 
   return (
     <Container maxWidth="xs" sx={{ minHeight: "81vh" }}>
@@ -99,16 +97,15 @@ const NewBlog = () => {
             />
           </FormControl>
           <FormControl fullWidth margin="normal">
-            <InputLabel variant="outlined" id="categoryId-label" required>
+            <InputLabel variant="outlined" id="category-label" required>
               Category
             </InputLabel>
-
             <Select
-              labelId="categoryId-label"
+              labelId="category-label"
               label="Category"
               id="categoryId"
               name="categoryId"
-              value={data?.categoryId || data?.categoryId}
+              value={data.categoryId}
               onChange={handleChange}
             >
               {categories?.map((item) => (
@@ -119,15 +116,15 @@ const NewBlog = () => {
             </Select>
           </FormControl>
           <FormControl fullWidth margin="normal">
-            <InputLabel id="isPublish-label" required>
+            <InputLabel id="status-label" required>
               Status
             </InputLabel>
             <Select
-              labelId="isPublish-label"
-              id="isPublish"
-              name="isPublish"
-              value={data.isPublish}
-              label="isPublish"
+              labelId="status-label"
+              id="isPublished"
+              name="isPublished"
+              value={data.isPublished}
+              label="Status"
               onChange={handleChange}
             >
               <MenuItem value="false">Draft</MenuItem>
