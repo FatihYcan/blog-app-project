@@ -4,6 +4,8 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import useAuthCalls from "../hooks/useAuthCalls";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import image from "../img/logo.jpg";
+import avatar from "../assets/icons/avatar.png";
 
 const navigation = [
   { name: "DASHBORD", to: "/", current: false },
@@ -39,11 +41,7 @@ export default function Navbar() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                    alt="Your Company"
-                  />
+                  <img className="h-8 w-auto" src={image} alt="Your Company" />
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
@@ -73,7 +71,7 @@ export default function Navbar() {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        src={avatar}
                         alt=""
                       />
                     </Menu.Button>
@@ -93,7 +91,7 @@ export default function Navbar() {
                           <Menu.Item>
                             {({ active }) => (
                               <Link
-                                to="/login"
+                                to="/auth"
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"
@@ -136,7 +134,8 @@ export default function Navbar() {
                           </Menu.Item>
                           <Menu.Item>
                             {({ active }) => (
-                              <span
+                              <Link
+                                to="/"
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"
@@ -144,7 +143,7 @@ export default function Navbar() {
                                 onClick={logout}
                               >
                                 Logout
-                              </span>
+                              </Link>
                             )}
                           </Menu.Item>
                         </>

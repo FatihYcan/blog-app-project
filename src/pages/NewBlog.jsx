@@ -14,8 +14,9 @@ import useBlogCalls from "../hooks/useBlogCalls";
 import { useSelector } from "react-redux";
 
 const NewBlog = () => {
-  const { categories, loading, error } = useSelector((state) => state.blog);
+  const { categories } = useSelector((state) => state.blog);
   const { getBlogs, postBlogs, getCategories } = useBlogCalls();
+  const { userId } = useSelector((state) => state.auth);
 
   const [data, setData] = React.useState({
     categoryId: "",
@@ -45,8 +46,6 @@ const NewBlog = () => {
       isPublish: true,
     });
   };
-
-  console.log(data);
 
   return (
     <Container maxWidth="xs" sx={{ minHeight: "81vh" }}>
@@ -130,8 +129,8 @@ const NewBlog = () => {
               label="isPublish"
               onChange={handleChange}
             >
-              <MenuItem value="false">Draft</MenuItem>
-              <MenuItem value="true">Published</MenuItem>
+              <MenuItem value={false}>Draft</MenuItem>
+              <MenuItem value={true}>Published</MenuItem>
             </Select>
           </FormControl>
           <FormControl fullWidth margin="normal">

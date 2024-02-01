@@ -6,10 +6,11 @@ const blogSlice = createSlice({
   initialState: {
     categories: [],
     blogs: [],
+    pagination: {},
     comments: [],
     likes: [],
-    user: [], //MyUser
     details: {},
+    users: [],
     loading: false,
     error: false,
   },
@@ -20,14 +21,9 @@ const blogSlice = createSlice({
       state.loading = true;
     },
 
-    // getBlogSuccess: (state, { payload: { data, url } }) => {
-    //   state[url] = data;
-    //   state.loading = false;
-    //   state.error = false;
-    // },
-
-    getBlogSuccess: (state, action) => {
-      state[action.payload.url] = action.payload.apiData;
+    getBlogSuccess: (state, { payload }) => {
+      state.blogs = payload.apiData;
+      state.pagination = payload.pagination;
       state.loading = false;
       state.error = false;
     },
@@ -45,8 +41,9 @@ const blogSlice = createSlice({
     },
 
     getUserSuccess: (state, { payload }) => {
+      state.users = payload.apiData;
+      state.pagination = payload.pagination;
       state.loading = false;
-      state.user = payload;
       state.error = false;
     },
 

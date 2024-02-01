@@ -1,37 +1,42 @@
-import React, { useEffect, useState } from "react";
+import { Button, Grid, Pagination, Stack, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import useBlogCalls from "../hooks/useBlogCalls";
 import Card from "../components/blog/Card";
+import { Link } from "react-router-dom";
 import SkeletonCard from "../pages/SkeletonCard";
-import { Grid, Stack, Typography } from "@mui/material";
-import Pagination from "@mui/material/Pagination";
 
-const Dashboard = () => {
-  const { blogs, pagination } = useSelector((state) => state.blog);
-  const { getBlogs } = useBlogCalls();
+const MyBlogs = () => {
+  const { getUsers } = useBlogCalls();
+  const { userId } = useSelector((state) => state.auth);
+  const { users, pagination } = useSelector((state) => state.blog);
 
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    getUsers("blogs", { id: userId });
+  }, [userId]);
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        await getBlogs(`/blogs?page=${page}&limit=10`);
+        await getUsers("blogs", { id: userId });
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, [page]);
+  }, [userId]);
 
   const handlePage = (event, value) => {
     setPage(value);
   };
 
   return (
-    <>
+    <React.Fragment>
       <Grid
         container
         spacing={2}
@@ -44,24 +49,39 @@ const Dashboard = () => {
         }}
       >
         {loading ? (
-          Array.from({ length: blogs.length }).map((_, index) => (
+          Array.from({ length: users.length }).map((_, index) => (
             <Grid key={index} item xs={12} md={6} lg={4} xl={3}>
               <SkeletonCard />
             </Grid>
           ))
-        ) : blogs.length === 0 ? (
-          <Typography variant="h4" color="error" align="center">
-            Blog Not Found...
-          </Typography>
+        ) : users.length === 0 ? (
+          <>
+            <Stack
+              spacing={2}
+              sx={{
+                display: "flex",
+                flexFlow: "column",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Typography variant="h4" color="error" align="center">
+                Blog Not Found...
+              </Typography>
+              <Button variant="contained" component={Link} to="/new-blog">
+                WRITE BLOG
+              </Button>{" "}
+            </Stack>
+          </>
         ) : (
           <>
-            {blogs.map((item, i) => (
+            {users.map((item, i) => (
               <Card {...item} />
             ))}
           </>
         )}
       </Grid>
-      {blogs.length > 0 && (
+      {users.length > 0 && (
         <Stack
           spacing={2}
           sx={{ margin: 3, alignItems: "center", justifyContent: "center" }}
@@ -74,8 +94,8 @@ const Dashboard = () => {
           />
         </Stack>
       )}
-    </>
+    </React.Fragment>
   );
 };
 
-export default Dashboard;
+export default MyBlogs;

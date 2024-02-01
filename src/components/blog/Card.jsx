@@ -1,8 +1,6 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -12,8 +10,6 @@ import { Button, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import useBlogCalls from "../../hooks/useBlogCalls";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
 
 export default function BlogCard({
   _id,
@@ -31,7 +27,7 @@ export default function BlogCard({
   const navigate = useNavigate();
 
   const handleLike = () => {
-    userId ? postLikes("blogs", _id) : navigate("/login");
+    userId ? postLikes("blogs", _id) : navigate("/auth");
   };
 
   // const handleDetail = async () => {
@@ -55,77 +51,88 @@ export default function BlogCard({
   // }; //! 2. çalışan
 
   const handleDetail = () => {
-    if (user) {
-      navigate(`/detail/${_id}/`);
-    } else {
-      navigate("/login");
-    }
+    navigate(`/detail/${_id}/`);
   };
 
   return (
     <Grid item key={_id} xs={12} md={6} lg={4} xl={3}>
       <Card elevation={24} sx={{ margin: "10px" }}>
-        <CardMedia
-          component="img"
-          alt={title}
-          image={image}
-          sx={{
-            height: "175px",
-            width: "350px",
-            margin: "auto",
-            objectFit: "contain",
-            paddingTop: 2,
-          }}
-        />
+        <Typography
+          variant="body1"
+          component="div"
+          sx={{ display: "flex", justifyContent: "center", height: "150px" }}
+        >
+          <CardMedia
+            component="img"
+            alt={title}
+            image={image}
+            sx={{
+              height: "175px",
+              width: "350px",
+              margin: "auto",
+              objectFit: "contain",
+              paddingTop: 2,
+            }}
+          />
+        </Typography>
 
-        <CardContent sx={{ height: "150px" }}>
+        <Typography
+          variant="body1"
+          component="div"
+          sx={{ width: "100%", height: "150px", marginTop: "8px" }}
+        >
           <Typography
             gutterBottom
             variant="h6"
             component="div"
             sx={{
+              marginTop: "2rem",
               textTransform: "uppercase",
               textAlign: "center",
-              color: "#0d47a1",
+              color: "darkblue",
             }}
           >
             {title}
           </Typography>
-
           <Typography
             variant="body2"
-            color="text.secondary"
-            sx={{ height: "40px" }}
+            component="span"
             style={{
               display: "-webkit-box",
               WebkitBoxOrient: "vertical",
               overflow: "hidden",
               WebkitLineClamp: 2,
-              marginBottom: "1rem",
-              textAlign: "left",
+              margin: "16px",
             }}
           >
             {content}
           </Typography>
-
           <Typography
+            gutterBottom
             variant="body2"
-            color="text.secondary"
-            sx={{ marginTop: "1rem" }}
+            component="span"
+            sx={{ textAlign: "left", margin: "16px" }}
           >
             Published Date : {createdAt && new Date(createdAt).toLocaleString()}
           </Typography>
-        </CardContent>
-        <CardActions
-          disableSpacing
+        </Typography>
+
+        <Typography
+          variant="body1"
+          component="div"
           sx={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            margin: "16px",
           }}
         >
-          <div>
-            <IconButton aria-label="add to favorites" onClick={handleLike}>
+          <Typography variant="body1" component="div">
+            <IconButton
+              aria-label="add to favorites"
+              sx={{ textAlign: "left" }}
+              onClick={handleLike}
+            >
               {likes?.includes(userId) ? (
                 <FavoriteIcon color="error" />
               ) : (
@@ -133,27 +140,20 @@ export default function BlogCard({
               )}
               <span> {likes.length} </span>
             </IconButton>
-
-            <IconButton aria-label="comments">
+            <IconButton aria-label="comments" sx={{ textAlign: "left" }}>
               <ChatBubbleOutlineIcon />
               <span> {comments.length}</span>
             </IconButton>
-            <IconButton aria-label="view">
+            <IconButton aria-label="view" sx={{ textAlign: "left" }}>
               <VisibilityOutlinedIcon />
               <span> {countOfVisitors}</span>
             </IconButton>
-          </div>
-          <Button
-            variant="contained"
-            sx={{ marginLeft: "auto" }}
-            onClick={handleDetail}
-          >
+          </Typography>
+          <Button variant="contained" onClick={handleDetail}>
             READ MORE
           </Button>
-        </CardActions>
+        </Typography>
       </Card>
-    
     </Grid>
-    
   );
 }

@@ -7,52 +7,25 @@ import Footer from "../components/Footer";
 import Detail from "../pages/Detail";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
-
-
+import MyBlogs from "../pages/MyBlogs";
+import Profile from "../pages/Profile";
+import PrivateRouter from "./PrivateRouter";
 
 const AppRouter = () => {
   return (
-    // <Router>
-    //   <Navbar />
-    //   <Routes>
-    //     <Route path="/" element={<Dashboard />} />
-    //     <Route path="new-blog" element={<NewBlog />} />
-    //     <Route path="about" element={<About />} />
-    //     <Route path="/detail/:_id" element={<Detail />} />
-
-    //     <Route path="stock" element={<PrivateRouter />}>
-    //       <Route path="" element={<Dashboard />}>
-    //         <Route index element={<Home />} />
-    //         <Route path="purchases" element={<Purchases />} />
-    //         <Route path="sales" element={<Sales />} />
-    //         <Route path="firms" element={<Firms />} />
-    //         <Route path="brands" element={<Brands />} />
-    //         <Route path="products" element={<Products />} />
-    //       </Route>
-    //     </Route>
-    //   </Routes>
-    //   <Footer />
-    // </Router>
     <Router>
       <Navbar />
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="register" element={<Register />} />
-        <Route path="login" element={<Login />} />
+        <Route path="/auth" element={<Login />} />
         <Route path="about" element={<About />} />
-        <Route path="new-blog" element={<NewBlog />} />
+        <Route path="" element={<PrivateRouter />}>
+          <Route path="new-blog" element={<NewBlog />} />
+        </Route>
         <Route path="/detail/:_id" element={<Detail />} />
-
-        {/* <Route path="stock" element={<PrivateRouter />}>
-          <Route path="" element={<Dashboard />}>
-            <Route index element={<Home />} /> */}
-        {/* <Route path="purchases" element={<Purchases />} />
-            <Route path="sales" element={<Sales />} />
-            <Route path="firms" element={<Firms />} />
-            <Route path="brands" element={<Brands />} />
-            <Route path="products" element={<Products />} /> */}
-        {/* </Route>
-        </Route> */}
+        <Route path="my-blogs" element={<MyBlogs />} />
+        <Route path="profile" element={<Profile />} />
       </Routes>
       <Footer />
     </Router>

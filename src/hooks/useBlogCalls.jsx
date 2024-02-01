@@ -11,18 +11,18 @@ import { toastErrorNotify, toastSuccessNotify } from "../helper/ToastNotify";
 import { useDispatch } from "react-redux";
 
 const useBlogCalls = () => {
-  const { axiosWithToken } = useAxios();
+  const { axiosWithToken, axiosPublic } = useAxios();
   const dispatch = useDispatch();
 
-  const getBlogs = async (url = "blogs") => {
+  const getBlogs = async (url) => {
     dispatch(fetchStart());
     try {
-      const { data } = await axiosWithToken(`/${url}/`);
+      const { data } = await axiosPublic(url);
       const apiData = data.data;
-      dispatch(getBlogSuccess({ apiData, url }));
+      const pagination = data.details;
+      dispatch(getBlogSuccess({ apiData, pagination }));
     } catch (error) {
       dispatch(fetchFail());
-      toastErrorNotify(`${url} bilgileri çekilemedi.`);
     }
   };
 
@@ -35,9 +35,8 @@ const useBlogCalls = () => {
       dispatch(getBlogSuccess({ apiData, url }));
       toastSuccessNotify(`${url} kayıdı eklenmiştir.`);
     } catch (error) {
-      console.error("postBlogs error:", error);
       dispatch(fetchFail());
-      toastErrorNotify(`${url} kaydi eklenemiştir.`);
+      toastErrorNotify(`${url} kayıdı kaydi eklenemiştir.`);
     }
   };
 
@@ -85,12 +84,6 @@ const useBlogCalls = () => {
     }
   };
 
-  // const getDetails = async (url = "blogs", post_id) => {
-  //   const { data } = await axiosWithToken(`/${url}/${post_id}/`);
-  //   const apiData = data.data;
-  //   dispatch(getDetailSuccess({ apiData, url, post_id }));
-  // }; // Çalışan fonksiyon
-
   const getDetails = async (url = "blogs", post) => {
     const { data } = await axiosWithToken(`/${url}/${post.id}/`);
     const apiData = data.data;
@@ -99,7 +92,9 @@ const useBlogCalls = () => {
 
   const getUsers = async (url = "blogs", user) => {
     const { data } = await axiosWithToken(`/${url}?author=${user.id}`);
-    dispatch(getUserSuccess(data));
+    const apiData = data.data;
+    const pagination = data.details;
+    dispatch(getUserSuccess({ apiData, url, pagination }));
   };
 
   const postComments = async (url = "blogs", data) => {
@@ -110,7 +105,7 @@ const useBlogCalls = () => {
       getBlogs(url);
     } catch (error) {
       dispatch(fetchFail());
-      toastErrorNotify("Yorum yapılamamıştır");
+      toastErrorNotify("Login olmadığınız için yorum yapılamamıştır");
     }
   };
 

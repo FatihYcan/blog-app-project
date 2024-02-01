@@ -50,7 +50,7 @@ const Login = () => {
 
           <Box sx={{ textAlign: "center", my: "1rem" }}>
             Don't have an account?{" "}
-            <Link to="/login" style={{ color: "red" }}>
+            <Link to="/register" style={{ color: "red" }}>
               Sign up
             </Link>
           </Box>

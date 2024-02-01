@@ -11,7 +11,7 @@ export default function DeleteModal({ open, handleClose }) {
 
   const handleDelete = () => {
     deleteBlogs("blogs", _id);
-    navigate("/");
+    navigate(-1);
   };
 
   return (

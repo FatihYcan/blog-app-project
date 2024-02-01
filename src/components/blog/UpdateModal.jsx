@@ -28,16 +28,12 @@ export default function UpdateModal({ open, handleClose, data, setData }) {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  console.log(data);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     putBlogs("blogs", _id, data);
     handleClose();
     getDetails("blogs", { id: _id });
   };
-
-  console.log(data);
 
   return (
     <div>

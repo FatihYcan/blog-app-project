@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  user: "", // currentUser
+  user: "",
   username: "",
   userId: "",
   token: "",
+  email: "",
+  image: "",
   loading: false,
   error: false,
 };
@@ -24,6 +26,8 @@ const authSlice = createSlice({
       state.userId = payload?.user?._id;
       state.token = payload?.token;
       state.username = payload?.user?.username;
+      state.email = payload?.user?.email;
+      state.image = payload?.user?.image;
     },
 
     registerSuccess: (state, { payload }) => {
@@ -32,6 +36,8 @@ const authSlice = createSlice({
       state.userId = payload?.data?.id;
       state.token = payload?.token;
       state.username = payload?.data?.username;
+      state.email = payload?.user?.email;
+      state.image = payload?.user?.image;
     },
 
     logoutSuccess: (state) => {
@@ -40,6 +46,8 @@ const authSlice = createSlice({
       state.token = "";
       state.username = "";
       state.userId = "";
+      state.email = "";
+      state.image = "";
     },
 
     fetchFail: (state) => {
