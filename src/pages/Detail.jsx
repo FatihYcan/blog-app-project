@@ -89,6 +89,7 @@ export default function Detail() {
               details.createdAt && new Date(details.createdAt).toLocaleString()
             }
           />
+          
           <CardContent>
             <Typography component="h1" variant="body1">
               {title}
