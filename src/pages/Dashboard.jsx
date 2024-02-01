@@ -13,6 +13,8 @@ const Dashboard = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
 
+    console.log(pagination);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -56,7 +58,7 @@ const Dashboard = () => {
         ) : (
           <>
             {blogs.map((item, i) => (
-              <Card {...item} />
+              <Card key={i} {...item} page={page} />
             ))}
           </>
         )}
