@@ -37,7 +37,7 @@ export default function BlogCard({
   };
 
   const handleDetail = () => {
-    navigate(`/detail/${_id}/`);
+    navigate(`/detail/${_id}`);
   };
 
   return (
